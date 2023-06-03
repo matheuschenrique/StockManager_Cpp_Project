@@ -3,9 +3,8 @@
 
 #include <string>
 #include <list>
-#include <chrono>
-
-using namespace std;
+#include <ctime>
+#include <limits>
 
 enum class ProductType {
     Default = 0,
@@ -19,12 +18,14 @@ enum class ProductType {
 class Product
 {
 public:
-    Product(int code, string &name, float cost_price);
-    ~Product(){};
-    virtual void calculate_total_price() const = 0;
-private:
+    Product();
+    Product(int code, const std::string &name, float cost_price);
+    ~Product() {};
+    virtual void calculate_total_price();
+    virtual void set_details();
+    virtual void print() const;
     int code;
-    string name;
+    std::string name;
     int quantity;
     float cost_price;
     float sale_price;
@@ -32,9 +33,11 @@ private:
 
 class Book : public Product{
 public:
-    Book(int code, string &name, float cost_price);
-    ~Book(){};
-    void calculate_total_price()  const override;
+    Book(int code, const std::string &name, float cost_price);
+    ~Book() {};
+    void calculate_total_price() override;
+    void set_details() override;
+    void print()  const override;
     void set_cover_style();
 private:
     int cover_style;
@@ -42,42 +45,51 @@ private:
 
 class Electronics : public Product {
 public:
-    Electronics(int code, string &name, float cost_price);
-    ~Electronics(){ delete manufacturing_date; };
-    void calculate_total_price()  const override;
+    Electronics(int code, const std::string &name, float cost_price);
+    ~Electronics();
+    void calculate_total_price() override;
+    void set_details() override;
+    void print()  const override;
     void set_manufacturing_date();
 private:
-    tm *manufacturing_date;
+    std::tm *manufacturing_date;
 };
 
 class Clothing : public Product {
 public:
-    Clothing(int code, string &name, float cost_price);
-    ~Clothing(){};
-    void calculate_total_price()  const override;
+    Clothing(int code, const std::string &name, float cost_price);
+    ~Clothing() {};
+    void calculate_total_price() override;
+    void set_details() override;
+    void print()  const override;
     void set_size();
 private:
-    string size;
+    std::string size;
 };
 
 class Food : public Product {
 public:
-    Food(int code, string &name, float cost_price);
-    ~Food(){ delete expiration_date; };
-    void calculate_total_price()  const override;
+    Food(int code, const std::string &name, float cost_price);
+    ~Food();
+    void calculate_total_price() override;
+    void set_details() override;
+    void print()  const override;
     void set_expiration_date();
 private:
-    tm *expiration_date;
+    std::tm *expiration_date;
 };
 
 class Other : public Product {
 public:
-    Other(int code, string &name, float cost_price);
-    ~Other(){};
-    void calculate_total_price()  const override;
+    Other(int code, const std::string &name, float cost_price);
+    ~Other() {};
+    void calculate_total_price() override;
+    void set_details() override;
+    void print()  const override;
 };
 
-void insert_product(list<Product*> &list);
-
+void insert_date(std::tm *destiny);
+void insert_product(std::list<Product*> &list);
+void print_list(const std::list<Product*> &list);
 
 #endif

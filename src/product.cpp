@@ -3,10 +3,132 @@
 #include <iomanip>
 #include "product.h"
 
-void insert_date(tm *destiny) {
-    string date_string;
+Product::Product() {}
+
+Product::Product(int code, const std::string &name, float cost_price) 
+    : code(code), name(name), cost_price(cost_price) { }
+
+void Product::calculate_total_price() {}
+void Product::set_details() {}
+void Product::print() const {}
+
+Book::Book(int code, const std::string &name, float cost_price) 
+    : Product(code, name, cost_price) {  }
+
+void Book::set_cover_style() {
+    int cover;
+    std::cout << "O livro possui capa dura? ";
+    while(!(std::cin >> cover) || cover < 0 || cover > 1) {
+        std::cout << "Entrada invalida, digite um valor valido: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    cover_style = cover;
+}
+
+void Book::calculate_total_price() {
+    sale_price = cost_price;
+}
+
+void Book::set_details() {
+    set_cover_style();
+}
+
+void Book::print() const {
+    std::cout << code << " " << name << " " << quantity;
+}
+
+Electronics::Electronics(int code, const std::string &name, float cost_price) 
+    : Product(code, name, cost_price) { 
+        manufacturing_date = new std::tm();
+    }
+
+void Electronics::set_manufacturing_date() {
+    std::cout << "Digite a data de fabricacao do produto (no formato DD/MM/YYYY): ";
+    insert_date(manufacturing_date);
+}
+
+void Electronics::set_details() {
+    set_manufacturing_date();
+}
+
+void Electronics::calculate_total_price() {
+    sale_price = cost_price;
+}
+
+void Electronics::print() const {
+    std::cout << code << " " << name << " " << quantity;
+}
+
+Electronics::~Electronics(){ 
+    delete manufacturing_date; 
+}
+
+Clothing::Clothing(int code, const std::string &name, float cost_price) 
+    : Product(code, name, cost_price) { }
+
+void Clothing::set_size(){
+    std::cout << "set size \n";
+}
+
+void Clothing::set_details() {
+    set_size();
+}
+
+void Clothing::calculate_total_price() {
+    sale_price = cost_price;
+}
+
+void Clothing::print() const {
+    std::cout << code << " " << name << " " << quantity;
+}
+
+Food::Food(int code, const std::string &name, float cost_price) 
+    : Product(code, name, cost_price) { 
+        expiration_date = new std::tm();
+    }
+
+void Food::set_expiration_date() {
+    std::cout << "Digite a data de validade do produto (no formato DD/MM/YYYY): ";
+    insert_date(expiration_date);
+}
+
+void Food::set_details() {
+    set_expiration_date();
+}
+
+void Food::calculate_total_price() {
+    sale_price = cost_price;
+}
+
+void Food::print() const {
+    std::cout << code << " " << name << " " << quantity;
+}
+
+Food::~Food(){ 
+    delete expiration_date; 
+}
+
+Other::Other(int code, const std::string &name, float cost_price) 
+    : Product(code, name, cost_price) { }
+
+void Other::set_details() {
+    return;
+}
+
+void Other::calculate_total_price() {
+    sale_price = cost_price;
+}
+
+void Other::print() const {
+    std::cout << code << " " << name << " " << quantity;
+}
+
+void insert_date(std::tm *destiny) {
+    std::string date_string;
 
     do {
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, date_string);
 
         std::istringstream date_stream(date_string);
@@ -31,127 +153,88 @@ void insert_date(tm *destiny) {
     } while(1);
 }
 
-Product::Product(int code, string &name, float cost_price) 
-    : code(code), name(name), cost_price(cost_price) { }
-
-Book::Book(int code, string &name, float cost_price) 
-    : Product(code, name, cost_price) {  }
-
-void Book::set_cover_style() {
-    int cover;
-    cout << "O livro possui capa dura? ";
-    while(!(cin >> cover) || cover < 0 || cover > 1) {
-        cout << "Entrada invalida, digite um valor valido: ";
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
-    cover_style = cover;
-}
-
-Electronics::Electronics(int code, string &name, float cost_price) 
-    : Product(code, name, cost_price) { }
-
-void Electronics::set_manufacturing_date() {
-    cout << "Digite a data de fabricacao do produto (no formato DD/MM/YYYY): ";
-    insert_date(manufacturing_date);
-}
-
-Clothing::Clothing(int code, string &name, float cost_price) 
-    : Product(code, name, cost_price) { }
-
-Food::Food(int code, string &name, float cost_price) 
-    : Product(code, name, cost_price) { }
-
-void Food::set_expiration_date() {
-    cout << "Digite a data de validade do produto (no formato DD/MM/YYYY): ";
-    insert_date(expiration_date);
-}
-
-Other::Other(int code, string &name, float cost_price) 
-    : Product(code, name, cost_price) { }
-
-void insert_product(list<Product*> &list) {
-    string name;
+void insert_product(std::list<Product*> &list) {
+    std::string name;
     int type;
     int quantity;
     float cost_price;
 
-    cout << "Digite o nome do produto: ";
-    getline(cin, name);
+    std::cout << "Digite o nome do produto: ";
+    std::getline(std::cin, name);
+    // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    cout << "Digite a quantidade do produto em estoque: ";
-    while(!(cin >> quantity) || (quantity < 0)) {
-        cout << "Entrada invalida, digite um valor valido: ";
+    std::cout << "Digite a quantidade do produto em estoque: ";
+    while(!(std::cin >> quantity) || (quantity < 0)) {
+        std::cout << "Entrada invalida, digite um valor valido: ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    cout << "Digite a quantidade do produto em estoque: ";
-    while(!(cin >> cost_price) || (cost_price <= 0.0f)) {
-        cout << "Entrada invalida, digite um valor valido: ";
+    std::cout << "Digite o preco de custo do produto: ";
+    while(!(std::cin >> cost_price) || (cost_price <= 0.0f)) {
+        std::cout << "Entrada invalida, digite um valor valido: ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    cout << "Escolha o tipo de produto:\n";
-    cout << "1 - Livro\n";
-    cout << "2 - Eletronicos\n";
-    cout << "3 - Vestuario\n";
-    cout << "4 - Alimentos\n";
-    cout << "5 - Outros\n";
-    cout << "Opcao escolhida: ";
-    while(!(cin >> type) || (type < 1) || (type > 5)) {
-        cout << "Entrada invalida, digite um valor valido: ";
+    std::cout << "Escolha o tipo de produto:\n";
+    std::cout << "1 - Livro\n";
+    std::cout << "2 - Eletronicos\n";
+    std::cout << "3 - Vestuario\n";
+    std::cout << "4 - Alimentos\n";
+    std::cout << "5 - Outros\n";
+    std::cout << "Opcao escolhida: ";
+    while(!(std::cin >> type) || (type < 1) || (type > 5)) {
+        std::cout << "Entrada invalida, digite um valor valido: ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    Product* product = nullptr;
 
-    Product *product = nullptr;
-
-    switch (type)
+    switch (static_cast<ProductType>(type))
     {
-    case 1:
-        {  
-            Book* book = new Book(list.size() + 1, name, cost_price);
-            book->set_cover_style();
-            product = book;
-        }
+    case ProductType::Book:
+    {
+        product = new Book(list.size() + 1, name, cost_price);
         break;
-    case 2:
-        {
-            Electronics* electronics = new Electronics(list.size() + 1, name, cost_price);
-            electronics->set_manufacturing_date();
-            product = electronics;
-        }
+    }
+    case ProductType::Electronics:
+    {
+        // Electronics* electronics = new Electronics(list.size() + 1, name, cost_price);
+        product = new Electronics(list.size() + 1, name, cost_price);
         break;
-    case 3:
-        {
-            Clothing* clothing = new Clothing(list.size() + 1, name, cost_price);
-            clothing->set_size();
-            product = clothing;
-        }
+    }
+    case ProductType::Clothing:
+    {
+        product = new Clothing(list.size() + 1, name, cost_price);
         break;
-    case 4:
-        {
-            Food* food = new Food(list.size() + 1, name, cost_price);
-            food->set_expiration_date();
-            product = food;
-        }
+    }
+    case ProductType::Food:
+    {
+        product = new Food(list.size() + 1, name, cost_price);
         break;
-    case 5:
+    }
+    case ProductType::Other:
+    {
         product = new Other(list.size() + 1, name, cost_price);
         break;
+    }
     default:
         break;
     }
 
+    product->set_details();
     product->calculate_total_price();
-
+    product->quantity = quantity;
     list.push_back(product);
+}
+
+void print_list(const std::list<Product*> &list) {
+    std::cout << "Lista de produtos:" << std::endl;
+
+    for (const auto &product : list) {
+        product->print();
+        std::cout << std::endl;
+    }
 }
