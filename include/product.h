@@ -18,7 +18,7 @@ enum class ProductType {
 class Product
 {
 public:
-    Product();
+    Product() = default;
     Product(int code, const std::string &name, float cost_price);
     ~Product() {};
     virtual void calculate_total_price();

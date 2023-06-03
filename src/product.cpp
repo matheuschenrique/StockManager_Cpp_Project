@@ -5,15 +5,15 @@
 
 Product::Product() {}
 
-Product::Product(int code, const std::string &name, float cost_price) 
+Product::Product(int code, const std::string &name, float cost_price)
     : code(code), name(name), cost_price(cost_price) { }
 
 void Product::calculate_total_price() {}
 void Product::set_details() {}
 void Product::print() const {}
 
-Book::Book(int code, const std::string &name, float cost_price) 
-    : Product(code, name, cost_price) {  }
+Book::Book(int code, const std::string &name, float cost_price)
+    : Product(code, name, cost_price) { }
 
 void Book::set_cover_style() {
     int cover;
@@ -38,10 +38,8 @@ void Book::print() const {
     std::cout << code << " " << name << " " << quantity;
 }
 
-Electronics::Electronics(int code, const std::string &name, float cost_price) 
-    : Product(code, name, cost_price) { 
-        manufacturing_date = new std::tm();
-    }
+Electronics::Electronics(int code, const std::string &name, float cost_price)
+    : Product(code, name, cost_price), manufacturing_date(new std::tm()) {}
 
 void Electronics::set_manufacturing_date() {
     std::cout << "Digite a data de fabricacao do produto (no formato DD/MM/YYYY): ";
@@ -60,14 +58,14 @@ void Electronics::print() const {
     std::cout << code << " " << name << " " << quantity;
 }
 
-Electronics::~Electronics(){ 
-    delete manufacturing_date; 
+Electronics::~Electronics() {
+    delete manufacturing_date;
 }
 
-Clothing::Clothing(int code, const std::string &name, float cost_price) 
+Clothing::Clothing(int code, const std::string &name, float cost_price)
     : Product(code, name, cost_price) { }
 
-void Clothing::set_size(){
+void Clothing::set_size() {
     std::cout << "set size \n";
 }
 
@@ -83,10 +81,8 @@ void Clothing::print() const {
     std::cout << code << " " << name << " " << quantity;
 }
 
-Food::Food(int code, const std::string &name, float cost_price) 
-    : Product(code, name, cost_price) { 
-        expiration_date = new std::tm();
-    }
+Food::Food(int code, const std::string &name, float cost_price)
+    : Product(code, name, cost_price), expiration_date(new std::tm()) {}
 
 void Food::set_expiration_date() {
     std::cout << "Digite a data de validade do produto (no formato DD/MM/YYYY): ";
@@ -105,16 +101,14 @@ void Food::print() const {
     std::cout << code << " " << name << " " << quantity;
 }
 
-Food::~Food(){ 
-    delete expiration_date; 
+Food::~Food() {
+    delete expiration_date;
 }
 
-Other::Other(int code, const std::string &name, float cost_price) 
+Other::Other(int code, const std::string &name, float cost_price)
     : Product(code, name, cost_price) { }
 
-void Other::set_details() {
-    return;
-}
+void Other::set_details() { }
 
 void Other::calculate_total_price() {
     sale_price = cost_price;
@@ -161,7 +155,6 @@ void insert_product(std::list<Product*> &list) {
 
     std::cout << "Digite o nome do produto: ";
     std::getline(std::cin, name);
-    // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     std::cout << "Digite a quantidade do produto em estoque: ";
     while(!(std::cin >> quantity) || (quantity < 0)) {
@@ -194,40 +187,41 @@ void insert_product(std::list<Product*> &list) {
 
     switch (static_cast<ProductType>(type))
     {
-    case ProductType::Book:
-    {
-        product = new Book(list.size() + 1, name, cost_price);
-        break;
-    }
-    case ProductType::Electronics:
-    {
-        // Electronics* electronics = new Electronics(list.size() + 1, name, cost_price);
-        product = new Electronics(list.size() + 1, name, cost_price);
-        break;
-    }
-    case ProductType::Clothing:
-    {
-        product = new Clothing(list.size() + 1, name, cost_price);
-        break;
-    }
-    case ProductType::Food:
-    {
-        product = new Food(list.size() + 1, name, cost_price);
-        break;
-    }
-    case ProductType::Other:
-    {
-        product = new Other(list.size() + 1, name, cost_price);
-        break;
-    }
-    default:
-        break;
+        case ProductType::Book:
+        {
+            product = new Book(list.size() + 1, name, cost_price);
+            break;
+        }
+        case ProductType::Electronics:
+        {
+            product = new Electronics(list.size() + 1, name, cost_price);
+            break;
+        }
+        case ProductType::Clothing:
+        {
+            product = new Clothing(list.size() + 1, name, cost_price);
+            break;
+        }
+        case ProductType::Food:
+        {
+            product = new Food(list.size() + 1, name, cost_price);
+            break;
+        }
+        case ProductType::Other:
+        {
+            product = new Other(list.size() + 1, name, cost_price);
+            break;
+        }
+        default:
+            break;
     }
 
-    product->set_details();
-    product->calculate_total_price();
-    product->quantity = quantity;
-    list.push_back(product);
+    if (product != nullptr) {
+        product->set_details();
+        product->calculate_total_price();
+        product->quantity = quantity;
+        list.push_back(product);
+    }
 }
 
 void print_list(const std::list<Product*> &list) {
