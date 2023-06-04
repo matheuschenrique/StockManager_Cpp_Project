@@ -5,6 +5,7 @@
 #include <list>
 #include <ctime>
 #include <limits>
+#include <algorithm>
 
 enum class ProductType {
     Default = 0,
@@ -21,6 +22,7 @@ public:
     Product() = default;
     Product(int code, const std::string &name, float cost_price);
     ~Product() {};
+    bool operator==(const Product &other) const;
     virtual void calculate_total_price();
     virtual void set_details();
     virtual void print() const;
@@ -91,5 +93,8 @@ public:
 void insert_date(std::tm *destiny);
 void insert_product(std::list<Product*> &list);
 void print_list(const std::list<Product*> &list);
+Product *search_by_name(std::list<Product*> &list, const std::string &name);
+Product *search_by_code(std::list<Product*> &list, const int code);
+void update_stock(std::list<Product*> &list);
 
 #endif

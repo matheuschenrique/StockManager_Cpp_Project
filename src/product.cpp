@@ -3,14 +3,16 @@
 #include <iomanip>
 #include "product.h"
 
-Product::Product() {}
-
 Product::Product(int code, const std::string &name, float cost_price)
     : code(code), name(name), cost_price(cost_price) { }
 
 void Product::calculate_total_price() {}
 void Product::set_details() {}
 void Product::print() const {}
+
+bool Product::operator==(const Product &other) const {
+    return (code == other.code) || (name == other.name);
+}
 
 Book::Book(int code, const std::string &name, float cost_price)
     : Product(code, name, cost_price) { }
@@ -122,6 +124,7 @@ void insert_date(std::tm *destiny) {
     std::string date_string;
 
     do {
+        std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, date_string);
 
@@ -230,5 +233,65 @@ void print_list(const std::list<Product*> &list) {
     for (const auto &product : list) {
         product->print();
         std::cout << std::endl;
+    }
+}
+
+Product *search_by_name(std::list<Product*> &list, const std::string &name) {
+    Product p(0, name, 0.0f);
+    auto it = std::find_if(list.begin(), list.end(), [&](Product* product) {
+        return product->name == name; });
+    
+    if (list.end() != it) {
+        (*it)->print();
+        return *it;
+    }
+    std::cout << "Produto nao encontrado\n";
+    return nullptr;
+}
+
+Product *search_by_code(std::list<Product*> &list, const int code) {
+    Product p(code, "", 0.0f);
+    auto it = std::find_if(list.begin(), list.end(), [&](Product* product) { 
+        return product->code == code; });
+    
+    if (list.end() != it) {
+        (*it)->print();
+        return *it;
+    }
+    
+    // busca sem iterator
+    // for (const auto &product : list) {
+    //     if(*product == p) {
+    //         product->print();
+    //         return product;
+    //     }
+    // }
+
+    std::cout << "Produto nao encontrado\n";
+    return nullptr;
+}
+
+void update_product(Product *product) {
+    std::cout << "Digite a quantidade do produto em estoque: ";
+    int quantity {};
+    while(!(std::cin >> quantity) || quantity < 0) {
+        std::cout << "Entrada invalida, digite um valor valido: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    product->quantity = quantity;
+}
+
+void update_stock(std::list<Product*> &list) {
+    int code {};
+    std::cout << "Digite o codigo do produto: ";
+    while(!(std::cin >> code) || code < 0) {
+        std::cout << "Entrada invalida, digite um valor valido: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    Product *product = search_by_code(list, code);
+    if (product != nullptr) {
+        update_product(product);
     }
 }
