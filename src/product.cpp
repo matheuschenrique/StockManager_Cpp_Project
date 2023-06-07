@@ -37,7 +37,15 @@ void Book::set_details() {
 }
 
 void Book::print() const {
-    std::cout << code << " " << name << " " << quantity;
+    std::cout << std::setw(20) << std::left << name 
+                << std::setw(20) << "Livro"
+                << std::setw(10) << code 
+                << std::setw(10) << quantity
+                << std::setw(10) << cost_price
+                << std::setw(10) << sale_price
+                << "Capa dura: " << std::setw(20) << cover_style;
+    std::cout << std::setfill('-') << std::setw(100) << "";
+    std::cout << std::setfill(' ') << std::endl;
 }
 
 Electronics::Electronics(int code, const std::string &name, float cost_price)
@@ -57,7 +65,18 @@ void Electronics::calculate_total_price() {
 }
 
 void Electronics::print() const {
-    std::cout << code << " " << name << " " << quantity;
+    std::cout << std::setw(20) << std::left << name 
+                << std::setw(20) << "Eletronico"
+                << std::setw(10) << code 
+                << std::setw(10) << quantity
+                << std::setw(10) << cost_price
+                << std::setw(10) << sale_price
+                << "Fabricacao: " 
+                << manufacturing_date->tm_mday << "/" 
+                << manufacturing_date->tm_mon + 1 << "/"
+                << manufacturing_date->tm_year + 1900 << std::endl;
+    std::cout << std::setfill('-') << std::setw(100) << "";
+    std::cout << std::setfill(' ') << std::endl;
 }
 
 Electronics::~Electronics() {
@@ -80,7 +99,15 @@ void Clothing::calculate_total_price() {
 }
 
 void Clothing::print() const {
-    std::cout << code << " " << name << " " << quantity;
+    std::cout << std::setw(20) << std::left << name 
+                << std::setw(20) << "Roupa"
+                << std::setw(10) << code 
+                << std::setw(10) << quantity
+                << std::setw(10) << cost_price
+                << std::setw(10) << sale_price
+                << "Tamanho: " << std::setw(20) << size;
+    std::cout << std::setfill('-') << std::setw(100) << "";
+    std::cout << std::setfill(' ') << std::endl;
 }
 
 Food::Food(int code, const std::string &name, float cost_price)
@@ -100,7 +127,18 @@ void Food::calculate_total_price() {
 }
 
 void Food::print() const {
-    std::cout << code << " " << name << " " << quantity;
+    std::cout << std::setw(20) << std::left << name 
+                << std::setw(20) << "Alimento"
+                << std::setw(10) << code 
+                << std::setw(10) << quantity
+                << std::setw(10) << cost_price
+                << std::setw(10) << sale_price
+                << "Validade: " 
+                << expiration_date->tm_mday << "/" 
+                << expiration_date->tm_mon + 1 << "/"
+                << expiration_date->tm_year + 1900 << std::endl;
+    std::cout << std::setfill('-') << std::setw(100) << "";
+    std::cout << std::setfill(' ') << std::endl;
 }
 
 Food::~Food() {
@@ -117,7 +155,14 @@ void Other::calculate_total_price() {
 }
 
 void Other::print() const {
-    std::cout << code << " " << name << " " << quantity;
+    std::cout << std::setw(20) << std::left << name 
+                << std::setw(20) << "Livro"
+                << std::setw(10) << code 
+                << std::setw(10) << quantity
+                << std::setw(10) << cost_price
+                << std::setw(10) << sale_price;
+    std::cout << std::setfill('-') << std::setw(100) << "";
+    std::cout << std::setfill(' ') << std::endl;
 }
 
 void insert_date(std::tm *destiny) {
@@ -227,8 +272,23 @@ void insert_product(std::list<Product*> &list) {
     }
 }
 
+void print_header() {
+    std::cout << std::setprecision(2) << std::fixed;
+    std::cout << std::setfill('-') << std::setw(100) << "";
+    std::cout << std::setfill(' ') << std::endl;
+    std::cout << std::setw(20) << std::left << "Nome"
+                << std::setw(20) << "Tipo"
+                << std::setw(10) << "Codigo" 
+                << std::setw(10) << "Qtd"
+                << std::setw(10) << "Custo"
+                << std::setw(10) << "Venda"
+                << std::setw(20) << "Info" << std::endl;
+    std::cout << std::setfill('-') << std::setw(100) << "";
+    std::cout << std::setfill(' ') << std::endl;
+}
+
 void print_list(const std::list<Product*> &list) {
-    std::cout << "Lista de produtos:" << std::endl;
+    print_header();
 
     for (const auto &product : list) {
         product->print();
