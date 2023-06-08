@@ -7,10 +7,9 @@
 
 void insert_date(std::tm *destiny) {
     std::string date_string;
-
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     do {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, date_string);
 
         std::istringstream date_stream(date_string);
@@ -19,7 +18,7 @@ void insert_date(std::tm *destiny) {
         date_stream >> std::get_time(&temp, "%d/%m/%Y");
 
         if (date_stream.fail()) {
-            std::cout << "Formato de data incorreto. Tente novamente." << std::endl;
+            std::cout << "Formato de data incorreto. Tente novamente: ";
             continue;
         }
 

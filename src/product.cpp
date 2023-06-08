@@ -77,16 +77,15 @@ void Electronics::calculate_total_price() {
 }
 
 void Electronics::print() const {
+    std::tm manufacturing_time = *manufacturing_date;
     std::cout << std::setw(20) << std::left << name 
                 << std::setw(20) << "Eletronico"
                 << std::setw(10) << code 
                 << std::setw(10) << quantity
                 << std::setw(10) << cost_price
                 << std::setw(10) << sale_price
-                << "Fabricacao: " 
-                << manufacturing_date->tm_mday << "/" 
-                << manufacturing_date->tm_mon + 1 << "/"
-                << manufacturing_date->tm_year + 1900 << std::endl;
+                << "Fabricacao: "
+                << std::put_time(&manufacturing_time, "%d/%m/%Y") << std::endl;
     screen_divider();
 }
 
@@ -210,16 +209,15 @@ void Food::calculate_total_price() {
 }
 
 void Food::print() const {
+    std::tm expiration_time = *expiration_date;
     std::cout << std::setw(20) << std::left << name 
                 << std::setw(20) << "Alimento"
                 << std::setw(10) << code 
                 << std::setw(10) << quantity
                 << std::setw(10) << cost_price
                 << std::setw(10) << sale_price
-                << "Validade: " 
-                << expiration_date->tm_mday << "/" 
-                << expiration_date->tm_mon + 1 << "/"
-                << expiration_date->tm_year + 1900 << std::endl;
+                << "Validade: "
+                << std::put_time(&expiration_time, "%d/%m/%Y") << std::endl;
     screen_divider();
 }
 
