@@ -10,6 +10,8 @@ set (CMAKE_CXX_STANDARD 14)
 set(SOURCES
     src/main.cpp
     src/product.cpp
+    src/current_time.cpp
+    src/menu.cpp
 )
 
 # Adicionar o executável

@@ -1,15 +1,35 @@
 #include <iostream>
-#include "product.h"
 #include <list>
+#include "product.h"
+#include "menu.h"
 
 int main() {
-    std::cout << "Falta calcular preco total e menu" << std::endl;
     std::list<Product*> product_list;
-    insert_product(product_list);
-    print_list(product_list);
-    // search_by_code(product_list, 1);
-    // search_by_name(product_list, "oi");
-    // update_stock(product_list);
-    // print_list(product_list);
+    MainOptions option;
+    do{
+        splash();
+        option = menu();
+
+        switch (option) {
+            case MainOptions::OPTION_REGISTER_PRODUCT:
+                insert_product(product_list);
+                break;
+            case MainOptions::OPTION_SEARCH_PRODUCT:
+                search_product(product_list);
+                break;
+            case MainOptions::OPTION_UPDATE_STOCK:
+                update_stock(product_list);
+                break;
+            case MainOptions::OPTION_SHOW_PRODUCTS:
+                list_print(product_list);
+                break;
+            case MainOptions::OPTION_EXIT:
+                std::cout << "Saindo...\n";
+                break;
+            default:
+                std::cout << "Opcao invalida!\n";
+                break;
+        }
+    } while (option != MainOptions::OPTION_EXIT);
     return 0;
 }
